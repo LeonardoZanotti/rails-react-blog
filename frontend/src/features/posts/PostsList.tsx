@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { API_URL } from "../../config/constants";
 import { Post } from "../../interfaces/Post";
 import { Link } from "react-router-dom";
+import "./PostsList.css";
 
 function PostsList() {
 	const [posts, setPosts] = useState<Post[]>([]);
@@ -29,9 +30,25 @@ function PostsList() {
 		getPosts();
 	}, []);
 
+	const deletePost = async (id: number) => {
+		if (confirm(`Are you sure you want to delete the post ${id}?`)) {
+			await fetch(`${API_URL}/posts/${id}`, { method: "DELETE" }).then(
+				(response) => {
+					if (response.ok) {
+						setPosts(posts.filter((post: Post) => post.id !== id));
+						console.log(`Deleted post with id: ${id}`);
+						alert("Post deleted successfully.");
+					} else {
+						throw response;
+					}
+				}
+			);
+		}
+	};
+
 	return (
 		<>
-			<div>
+			<div className="posts-container">
 				{!loading ? (
 					posts.map((post: Post) => (
 						<div key={post.id} className="post-container">
@@ -44,19 +61,23 @@ function PostsList() {
 								</Link>
 							</h2>
 							<p>{post.body}</p>
-							<button>
-								<Link
-									to={`/edit/${post.id}`}
-									className="post-edit"
-								>
-									Edit
-								</Link>
-							</button>
-							<button>Delete</button>
+							<div className="post-links">
+								<button>
+									<Link
+										to={`/edit/${post.id}`}
+										className="post-edit"
+									>
+										Edit
+									</Link>
+								</button>
+								<button onClick={() => deletePost(post.id)}>
+									Delete
+								</button>
+							</div>
 						</div>
 					))
 				) : (
-					<h2>Loading...</h2>
+					<h2 className="loading">Loading...</h2>
 				)}
 			</div>
 		</>

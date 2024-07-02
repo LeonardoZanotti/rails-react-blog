@@ -2,12 +2,18 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { API_URL } from "../../config/constants";
 import { Post } from "../../interfaces/Post";
+import "./PostDetails.css";
 
 function PostDetails() {
-	const [post, setPost] = useState<Post | null>(null);
+	const [post, setPost] = useState<Post>({
+		id: 0,
+		title: "",
+		body: "",
+	});
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
 	const { id } = useParams();
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		const fetchPost = async () => {
@@ -29,13 +35,37 @@ function PostDetails() {
 		fetchPost();
 	}, [id]);
 
+	const deletePost = async (id: number) => {
+		if (confirm(`Are you sure you want to delete the post ${id}?`)) {
+			await fetch(`${API_URL}/posts/${id}`, { method: "DELETE" }).then(
+				(response) => {
+					if (response.ok) {
+						navigate(`/`);
+						console.log(`Deleted post with id: ${id}`);
+						alert("Post deleted successfully.");
+					} else {
+						throw response;
+					}
+				}
+			);
+		}
+	};
+
 	let content = !loading ? (
-		<div>
+		<div className="post-container">
 			<h2>{post?.title}</h2>
 			<p>{post?.body}</p>
+			<div className="post-links">
+				<button>
+					<Link to={`/edit/${post.id}`} className="post-edit">
+						Edit
+					</Link>
+				</button>
+				<button onClick={() => deletePost(post?.id)}>Delete</button>
+			</div>
 		</div>
 	) : (
-		<h2>Loading...</h2>
+		<h2 className="loading">Loading...</h2>
 	);
 
 	return <div>{content}</div>;

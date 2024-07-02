@@ -1,0 +1,71 @@
+/* src/components/PostContent.css */
+
+body {
+	font-family: "Arial", sans-serif;
+	background-color: #f9f9f9;
+	margin: 0;
+	padding: 0;
+}
+
+.post-container {
+	max-width: 800px;
+	margin: 50px auto;
+	padding: 20px;
+	background: #ffffff;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	border-radius: 10px;
+}
+
+.post-container h2 {
+	font-size: 2rem;
+	margin-bottom: 20px;
+	color: #333;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.post-container p {
+	font-size: 1.2rem;
+	line-height: 1.6;
+	color: #555;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.post-links {
+	display: flex;
+	justify-content: space-between;
+	margin-top: 20px;
+}
+
+.post-links button {
+	padding: 10px 20px;
+	background-color: #007bff;
+	border: none;
+	border-radius: 5px;
+	color: white;
+	font-size: 1rem;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+}
+
+.post-links button:hover {
+	background-color: #0056b3;
+}
+
+.post-links button:first-child {
+	margin-right: 10px;
+}
+
+.post-edit {
+	color: white;
+	text-decoration: none;
+}
+
+.loading {
+	text-align: center;
+	font-size: 2rem;
+	color: #007bff;
+}
