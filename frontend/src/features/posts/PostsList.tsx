@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { API_URL } from "../../config/constants";
 import { Post } from "../../interfaces/Post";
+import { Link } from "react-router-dom";
 
 function PostsList() {
 	const [posts, setPosts] = useState<Post[]>([]);
@@ -34,7 +35,14 @@ function PostsList() {
 				{!loading ? (
 					posts.map((post: Post) => (
 						<div key={post.id} className="post-container">
-							<h2>{post.title}</h2>
+							<h2>
+								<Link
+									to={`/post/${post.id}`}
+									className="post-title"
+								>
+									{post.title}
+								</Link>
+							</h2>
 							<p>{post.body}</p>
 						</div>
 					))
