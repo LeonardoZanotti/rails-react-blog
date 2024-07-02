@@ -8,7 +8,6 @@ function App() {
 		<Router>
 			<div className="app">
 				<h1>React on Rails blog</h1>
-				<p>Find this application layout in frontend/src/app.tsx</p>
 				<NavBar />
 				<AppRoutes />
 			</div>
