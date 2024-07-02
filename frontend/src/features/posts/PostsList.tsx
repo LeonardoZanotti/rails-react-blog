@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { API_URL } from "../../constants";
+import { API_URL } from "../../config/constants";
 import { Post } from "../../interfaces/Post";
 
 function PostsList() {
@@ -21,7 +21,6 @@ function PostsList() {
 			} catch (error: any) {
 				setError(error.message);
 				console.log(error);
-				setLoading(false);
 			} finally {
 				setLoading(false);
 			}
@@ -32,12 +31,16 @@ function PostsList() {
 	return (
 		<>
 			<div>
-				{posts.map((post: Post) => (
-					<div key={post.id} className="post-container">
-						<h2>{post.title}</h2>
-						<p>{post.body}</p>
-					</div>
-				))}
+				{!loading ? (
+					posts.map((post: Post) => (
+						<div key={post.id} className="post-container">
+							<h2>{post.title}</h2>
+							<p>{post.body}</p>
+						</div>
+					))
+				) : (
+					<h2>Loading...</h2>
+				)}
 			</div>
 		</>
 	);
