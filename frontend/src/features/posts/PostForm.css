@@ -1,0 +1,72 @@
+/* src/styles.css or your preferred stylesheet */
+
+body {
+	font-family: "Arial", sans-serif;
+	background-color: #f9f9f9;
+	margin: 0;
+	padding: 0;
+}
+
+.newPostDiv {
+	max-width: 600px;
+	margin: 50px auto;
+	padding: 20px;
+	background: #ffffff;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	border-radius: 10px;
+}
+
+.newPostDiv h2 {
+	text-align: center;
+	margin-bottom: 20px;
+	color: #333;
+}
+
+.newPostForm {
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+}
+
+.newPostForm label {
+	display: flex;
+	flex-direction: column;
+	font-weight: bold;
+	color: #555;
+}
+
+.newPostForm input[type="text"],
+.newPostForm textarea {
+	padding: 10px;
+	margin-top: 5px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	font-size: 16px;
+}
+
+.newPostForm textarea {
+	width: 400px;
+	height: 100px;
+	resize: none;
+}
+
+.newPostForm input[type="text"]:focus,
+.newPostForm textarea:focus {
+	border-color: #007bff;
+	outline: none;
+}
+
+.newPostForm button {
+	padding: 10px 20px;
+	background-color: #007bff;
+	border: none;
+	border-radius: 5px;
+	color: white;
+	font-size: 16px;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+}
+
+.newPostForm button:hover {
+	background-color: #0056b3;
+}

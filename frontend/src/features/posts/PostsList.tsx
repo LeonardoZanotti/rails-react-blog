@@ -44,6 +44,15 @@ function PostsList() {
 								</Link>
 							</h2>
 							<p>{post.body}</p>
+							<button>
+								<Link
+									to={`/edit/${post.id}`}
+									className="post-edit"
+								>
+									Edit
+								</Link>
+							</button>
+							<button>Delete</button>
 						</div>
 					))
 				) : (

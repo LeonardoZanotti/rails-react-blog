@@ -1,0 +1,72 @@
+/* src/styles.css or your preferred stylesheet */
+
+body {
+	font-family: "Arial", sans-serif;
+	background-color: #f9f9f9;
+	margin: 0;
+	padding: 0;
+}
+
+.editPostDiv {
+	max-width: 600px;
+	margin: 50px auto;
+	padding: 20px;
+	background: #ffffff;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	border-radius: 10px;
+}
+
+.editPostDiv h2 {
+	text-align: center;
+	margin-bottom: 20px;
+	color: #333;
+}
+
+.editPostForm {
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+}
+
+.editPostForm label {
+	display: flex;
+	flex-direction: column;
+	font-weight: bold;
+	color: #555;
+}
+
+.editPostForm input[type="text"],
+.editPostForm textarea {
+	padding: 10px;
+	margin-top: 5px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	font-size: 16px;
+}
+
+.editPostForm textarea {
+	width: 400px;
+	height: 100px;
+	resize: none;
+}
+
+.editPostForm input[type="text"]:focus,
+.editPostForm textarea:focus {
+	border-color: #007bff;
+	outline: none;
+}
+
+.editPostForm button {
+	padding: 10px 20px;
+	background-color: #007bff;
+	border: none;
+	border-radius: 5px;
+	color: white;
+	font-size: 16px;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+}
+
+.editPostForm button:hover {
+	background-color: #0056b3;
+}
