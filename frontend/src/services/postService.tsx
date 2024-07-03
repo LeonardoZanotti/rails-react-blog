@@ -30,9 +30,43 @@ async function fetchPostById(id: string): Promise<Post> {
 	}
 }
 
-async function createPost(postData: any) {}
+async function createPost(postData: Post): Promise<Post> {
+	try {
+		const response = await fetch(`${API_URL}/posts`, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(postData),
+		});
+		if (!response.ok) {
+			throw new Error(`HTTP error! status: ${response.status}`);
+		}
+		const data = await response.json();
+		return data;
+	} catch (error: any) {
+		throw new Error(`Error creating post: ${error.message}`);
+	}
+}
 
-async function updatePost(id: number, postData: any) {}
+async function updatePost(id: string, postData: Post): Promise<Post> {
+	try {
+		const response = await fetch(`${API_URL}/posts/${id}`, {
+			method: "PUT",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(postData),
+		});
+		if (!response.ok) {
+			throw new Error(`HTTP error! status: ${response.status}`);
+		}
+		const data = await response.json();
+		return data;
+	} catch (error: any) {
+		throw new Error(`Error creating post: ${error.message}`);
+	}
+}
 
 async function deletePost(id: number) {
 	try {
@@ -49,4 +83,4 @@ async function deletePost(id: number) {
 	}
 }
 
-export { fetchAllPosts, fetchPostById, deletePost };
+export { fetchAllPosts, fetchPostById, createPost, updatePost, deletePost };

@@ -16,13 +16,13 @@ function PostDetails() {
 	});
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
-	const { id } = useParams();
+	const { id } = useParams() as { id: string };
 	const navigate = useNavigate();
 
 	useEffect(() => {
 		const fetchPost = async () => {
 			try {
-				const data = await fetchPostById(id ? id : "");
+				const data = await fetchPostById(id);
 				setPost(data);
 			} catch (error: any) {
 				setError(error);

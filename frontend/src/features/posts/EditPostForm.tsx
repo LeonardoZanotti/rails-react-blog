@@ -3,22 +3,19 @@ import { useNavigate, useParams } from "react-router-dom";
 import "./EditPostForm.css";
 import { API_URL } from "../../config/constants";
 import { Post } from "../../interfaces/Post";
+import { fetchPostById, updatePost } from "../../services/postService";
 
 function EditPostForm() {
 	const [post, setPost] = useState<Post>({ title: "", body: "", id: 0 });
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
-	const { id } = useParams();
+	const { id } = useParams() as { id: string };
 	const navigate = useNavigate();
 
 	useEffect(() => {
 		const fetchPost = async () => {
 			try {
-				const response = await fetch(`${API_URL}/posts/${id}`);
-				if (!response.ok) {
-					throw new Error(`HTTP error! status: ${response.status}`);
-				}
-				const data = await response.json();
+				const data = await fetchPostById(id);
 				setPost(data);
 			} catch (error: any) {
 				setError(error);
@@ -34,23 +31,9 @@ function EditPostForm() {
 	const handleSubmit = async (e: any) => {
 		e.preventDefault();
 
-		const postData = { post };
-
-		const response = await fetch(`${API_URL}/posts/${id}`, {
-			method: "PUT",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(postData),
+		updatePost(id, post).then((post) => {
+			navigate(`/post/${post.id}`);
 		});
-
-		if (response.ok) {
-			const { id } = await response.json();
-			navigate(`/post/${id}`);
-		} else {
-			console.error(`Error editing post: ${response.status}`);
-			alert("Failed to edit post. Please try again.");
-		}
 	};
 
 	if (loading) {
