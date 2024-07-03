@@ -12,6 +12,10 @@
 	background-color: #f9f9f9;
 }
 
+.app #blog-title {
+	color: #333333;
+}
+
 ul {
 	list-style-type: none;
 	margin: 0;

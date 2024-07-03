@@ -3,6 +3,10 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import { API_URL } from "../../config/constants";
 import { Post } from "../../interfaces/Post";
 import "./PostDetails.css";
+import {
+	fetchPostById,
+	deletePost as deletePostService,
+} from "../../services/postService";
 
 function PostDetails() {
 	const [post, setPost] = useState<Post>({
@@ -18,11 +22,7 @@ function PostDetails() {
 	useEffect(() => {
 		const fetchPost = async () => {
 			try {
-				const response = await fetch(`${API_URL}/posts/${id}`);
-				if (!response.ok) {
-					throw new Error(`HTTP error! status: ${response.status}`);
-				}
-				const data = await response.json();
+				const data = await fetchPostById(id ? id : "");
 				setPost(data);
 			} catch (error: any) {
 				setError(error);
@@ -37,17 +37,11 @@ function PostDetails() {
 
 	const deletePost = async (id: number) => {
 		if (confirm(`Are you sure you want to delete the post ${id}?`)) {
-			await fetch(`${API_URL}/posts/${id}`, { method: "DELETE" }).then(
-				(response) => {
-					if (response.ok) {
-						navigate(`/`);
-						console.log(`Deleted post with id: ${id}`);
-						alert("Post deleted successfully.");
-					} else {
-						throw response;
-					}
-				}
-			);
+			await deletePostService(id).then(() => {
+				navigate(`/`);
+				console.log(`Deleted post with id: ${id}`);
+				alert("Post deleted successfully.");
+			});
 		}
 	};
 
@@ -56,11 +50,9 @@ function PostDetails() {
 			<h2>{post?.title}</h2>
 			<p>{post?.body}</p>
 			<div className="post-links">
-				<button>
-					<Link to={`/edit/${post.id}`} className="post-edit">
-						Edit
-					</Link>
-				</button>
+				<Link to={`/edit/${post.id}`} className="post-edit">
+					<button>Edit</button>
+				</Link>
 				<button onClick={() => deletePost(post?.id)}>Delete</button>
 			</div>
 		</div>
