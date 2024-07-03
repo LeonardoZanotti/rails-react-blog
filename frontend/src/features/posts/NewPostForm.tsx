@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./NewPostForm.css";
 import { API_URL } from "../../config/constants";
+import { createPost } from "../../services/postService";
+import { Post } from "../../interfaces/Post";
 
 function NewPostForm() {
 	const [title, setTitle] = useState("");
@@ -11,23 +13,11 @@ function NewPostForm() {
 	const handleSubmit = async (e: any) => {
 		e.preventDefault();
 
-		const postData = { title, body };
+		const postData: Post = { id: 0, title, body };
 
-		const response = await fetch(`${API_URL}/posts`, {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(postData),
+		createPost(postData).then((post) => {
+			navigate(`/post/${post.id}`);
 		});
-
-		if (response.ok) {
-			const { id } = await response.json();
-			navigate(`/post/${id}`);
-		} else {
-			console.error(`Error creating post: ${response.status}`);
-			alert("Failed to create post. Please try again.");
-		}
 	};
 
 	return (

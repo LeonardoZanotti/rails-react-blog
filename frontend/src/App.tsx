@@ -7,7 +7,7 @@ function App() {
 	return (
 		<Router>
 			<div className="app">
-				<h1>React on Rails blog</h1>
+				<h1 id="blog-title">React on Rails blog</h1>
 				<NavBar />
 				<AppRoutes />
 			</div>
