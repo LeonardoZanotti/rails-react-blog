@@ -1,46 +1,51 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import { Post } from "../../interfaces/Post";
 import { useNavigate } from "react-router-dom";
-import "./NewPostForm.css";
-import { API_URL } from "../../config/constants";
+import { createPost, updatePost } from "../../services/postService";
+import "./PostForm.css";
 
-function NewPostForm() {
-	const [title, setTitle] = useState("");
-	const [body, setBody] = useState("");
+interface PostFormProps {
+	post: null | Post;
+	isEditing: boolean;
+}
+
+function PostForm({ post, isEditing }: PostFormProps) {
+	const [formData, setFormData] = useState<Post>(
+		post || { id: 0, title: "", body: "" }
+	);
 	const navigate = useNavigate();
 
-	const handleSubmit = async (e: any) => {
-		e.preventDefault();
+	const sendPost = (data: Post) => {
+		const { id } = data;
 
-		const postData = { title, body };
+		const requestFunction = isEditing
+			? updatePost(id.toString(), data)
+			: createPost(data);
 
-		const response = await fetch(`${API_URL}/posts`, {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(postData),
+		requestFunction.then((res) => {
+			navigate(`/post/${res.id}`);
 		});
-
-		if (response.ok) {
-			const { id } = await response.json();
-			navigate(`/post/${id}`);
-		} else {
-			console.error(`Error creating post: ${response.status}`);
-			alert("Failed to create post. Please try again.");
-		}
 	};
 
 	return (
-		<div className="newPostDiv">
-			<h2>Create a new post</h2>
-			<form className="newPostForm" onSubmit={handleSubmit}>
+		<div>
+			<h2>{isEditing ? "Edit post" : "Create a new post"}</h2>
+			<form
+				className="postForm"
+				onSubmit={(e) => {
+					e.preventDefault();
+					sendPost(formData);
+				}}
+			>
 				<label htmlFor="titleInput" className="titleLabel">
 					Title:
 					<input
 						id="titleInput"
 						type="text"
-						value={title}
-						onChange={(e) => setTitle(e.target.value)}
+						value={formData?.title}
+						onChange={(e) =>
+							setFormData({ ...formData, title: e.target.value })
+						}
 					/>
 				</label>
 				<br />
@@ -48,15 +53,17 @@ function NewPostForm() {
 					Body:
 					<textarea
 						id="bodyInput"
-						value={body}
-						onChange={(e) => setBody(e.target.value)}
+						value={formData?.body}
+						onChange={(e) =>
+							setFormData({ ...formData, body: e.target.value })
+						}
 					/>
 				</label>
 				<br />
-				<button type="submit">Submit</button>
+				<button type="submit">{isEditing ? "Edit" : "Create"}</button>
 			</form>
 		</div>
 	);
 }
 
-export default NewPostForm;
+export default PostForm;
