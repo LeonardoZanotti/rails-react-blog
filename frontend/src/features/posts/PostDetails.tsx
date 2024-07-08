@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { API_URL } from "../../config/constants";
 import { Post } from "../../interfaces/Post";
 import "./PostDetails.css";
 import {
@@ -15,7 +14,6 @@ function PostDetails() {
 		body: "",
 	});
 	const [loading, setLoading] = useState(true);
-	const [error, setError] = useState(null);
 	const { id } = useParams() as { id: string };
 	const navigate = useNavigate();
 
@@ -25,7 +23,6 @@ function PostDetails() {
 				const data = await fetchPostById(id);
 				setPost(data);
 			} catch (error: any) {
-				setError(error);
 				console.error(error);
 			} finally {
 				setLoading(false);
@@ -48,11 +45,13 @@ function PostDetails() {
 	let content = !loading ? (
 		<div className="post-container">
 			<h2>{post?.title}</h2>
-			<img
-				src={post?.image_url}
-				alt={post.title}
-				className="post-image"
-			/>
+			{post.image_url && (
+				<img
+					src={post?.image_url}
+					alt={post.title}
+					className="post-image"
+				/>
+			)}
 			<p>{post?.body}</p>
 			<div className="post-links">
 				<Link to={`/edit/${post.id}`} className="post-edit">

@@ -10,7 +10,6 @@ import {
 function PostsList() {
 	const [posts, setPosts] = useState<Post[]>([]);
 	const [loading, setLoading] = useState(true);
-	const [error, setError] = useState(null);
 
 	useEffect(() => {
 		async function getPosts() {
@@ -18,7 +17,6 @@ function PostsList() {
 				const data = await fetchAllPosts();
 				setPosts(data);
 			} catch (error: any) {
-				setError(error.message);
 				console.log(error);
 			} finally {
 				setLoading(false);
@@ -51,7 +49,15 @@ function PostsList() {
 									{post.title}
 								</Link>
 							</h2>
-							<p>{post.body}</p>
+							<div className="post-image-div">
+								{post.image_url && (
+									<img
+										src={post?.image_url}
+										alt={post.title}
+										className="post-image"
+									/>
+								)}
+							</div>
 							<div className="post-links">
 								<Link
 									to={`/edit/${post.id}`}
