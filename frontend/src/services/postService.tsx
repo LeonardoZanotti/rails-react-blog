@@ -30,14 +30,11 @@ async function fetchPostById(id: string): Promise<Post> {
 	}
 }
 
-async function createPost(postData: Post): Promise<Post> {
+async function createPost(formData: FormData): Promise<Post> {
 	try {
 		const response = await fetch(`${API_URL}/posts`, {
 			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(postData),
+			body: formData,
 		});
 		if (!response.ok) {
 			throw new Error(`HTTP error! status: ${response.status}`);
@@ -49,14 +46,11 @@ async function createPost(postData: Post): Promise<Post> {
 	}
 }
 
-async function updatePost(id: string, postData: Post): Promise<Post> {
+async function updatePost(id: string, formData: FormData): Promise<Post> {
 	try {
 		const response = await fetch(`${API_URL}/posts/${id}`, {
 			method: "PUT",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(postData),
+			body: formData,
 		});
 		if (!response.ok) {
 			throw new Error(`HTTP error! status: ${response.status}`);
