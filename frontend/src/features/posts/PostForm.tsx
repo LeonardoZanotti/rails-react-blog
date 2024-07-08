@@ -9,9 +9,16 @@ interface PostFormProps {
 	isEditing: boolean;
 }
 
+interface PostFormRawData {
+	id?: number;
+	title: string;
+	body: string;
+	image?: File;
+}
+
 function PostForm({ post, isEditing }: PostFormProps) {
-	const [rawData, setRawData] = useState<Post>(
-		post || { id: 0, title: "", body: "" }
+	const [rawData, setRawData] = useState<PostFormRawData>(
+		post || { title: "", body: "" }
 	);
 	const navigate = useNavigate();
 
@@ -21,7 +28,7 @@ function PostForm({ post, isEditing }: PostFormProps) {
 		const formData = new FormData();
 		formData.append("post[title]", rawData.title);
 		formData.append("post[body]", rawData.body);
-		formData.append("post[image]", rawData.image_url);
+		formData.append("post[image]", rawData.image);
 
 		const requestFunction = isEditing
 			? updatePost(id.toString(), formData)
@@ -65,7 +72,7 @@ function PostForm({ post, isEditing }: PostFormProps) {
 							if (e.target?.files) {
 								setRawData({
 									...rawData,
-									image_url: e.target.files[0],
+									image: e.target.files[0],
 								});
 								console.log(e.target.files[0]);
 							}

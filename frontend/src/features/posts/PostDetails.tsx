@@ -48,6 +48,11 @@ function PostDetails() {
 	let content = !loading ? (
 		<div className="post-container">
 			<h2>{post?.title}</h2>
+			<img
+				src={post?.image_url}
+				alt={post.title}
+				className="post-image"
+			/>
 			<p>{post?.body}</p>
 			<div className="post-links">
 				<Link to={`/edit/${post.id}`} className="post-edit">
