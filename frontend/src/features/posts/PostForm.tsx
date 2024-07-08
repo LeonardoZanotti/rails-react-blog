@@ -9,18 +9,35 @@ interface PostFormProps {
 	isEditing: boolean;
 }
 
+interface PostFormRawData {
+	id?: number;
+	title: string;
+	body: string;
+	image?: File;
+	image_url?: string;
+}
+
 function PostForm({ post, isEditing }: PostFormProps) {
-	const [formData, setFormData] = useState<Post>(
-		post || { id: 0, title: "", body: "" }
+	const [rawData, setRawData] = useState<PostFormRawData>(
+		post || { title: "", body: "" }
 	);
 	const navigate = useNavigate();
 
-	const sendPost = (data: Post) => {
-		const { id } = data;
+	const sendPost = (rawData: any) => {
+		const { id } = rawData;
+
+		const formData = new FormData();
+		formData.append("post[title]", rawData.title);
+		formData.append("post[body]", rawData.body);
+
+		// keep old image when updating but not selecting a new image
+		if (!id || (id && rawData.image)) {
+			formData.append("post[image]", rawData.image);
+		}
 
 		const requestFunction = isEditing
-			? updatePost(id.toString(), data)
-			: createPost(data);
+			? updatePost(id.toString(), formData)
+			: createPost(formData);
 
 		requestFunction.then((res) => {
 			navigate(`/post/${res.id}`);
@@ -34,7 +51,7 @@ function PostForm({ post, isEditing }: PostFormProps) {
 				className="postForm"
 				onSubmit={(e) => {
 					e.preventDefault();
-					sendPost(formData);
+					sendPost(rawData);
 				}}
 			>
 				<label htmlFor="titleInput" className="titleLabel">
@@ -42,20 +59,46 @@ function PostForm({ post, isEditing }: PostFormProps) {
 					<input
 						id="titleInput"
 						type="text"
-						value={formData?.title}
+						value={rawData?.title}
 						onChange={(e) =>
-							setFormData({ ...formData, title: e.target.value })
+							setRawData({ ...rawData, title: e.target.value })
 						}
 					/>
 				</label>
+				<br />
+				<label htmlFor="image" className="titleLabel">
+					Image:
+					<input
+						id="imageInput"
+						type="file"
+						name="image"
+						accept="image/*"
+						onChange={(e) => {
+							if (e.target?.files) {
+								setRawData({
+									...rawData,
+									image: e.target.files[0],
+								});
+								console.log(e.target.files[0]);
+							}
+						}}
+					/>
+				</label>
+				{rawData.image_url && (
+					<img
+						src={rawData?.image_url}
+						alt={rawData.title}
+						className="post-image"
+					/>
+				)}
 				<br />
 				<label htmlFor="bodyInput" className="bodyLabel">
 					Body:
 					<textarea
 						id="bodyInput"
-						value={formData?.body}
+						value={rawData?.body}
 						onChange={(e) =>
-							setFormData({ ...formData, body: e.target.value })
+							setRawData({ ...rawData, body: e.target.value })
 						}
 					/>
 				</label>
