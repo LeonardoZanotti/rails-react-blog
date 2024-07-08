@@ -14,6 +14,7 @@ interface PostFormRawData {
 	title: string;
 	body: string;
 	image?: File;
+	image_url?: string;
 }
 
 function PostForm({ post, isEditing }: PostFormProps) {
@@ -28,7 +29,11 @@ function PostForm({ post, isEditing }: PostFormProps) {
 		const formData = new FormData();
 		formData.append("post[title]", rawData.title);
 		formData.append("post[body]", rawData.body);
-		formData.append("post[image]", rawData.image);
+
+		// keep old image when updating but not selecting a new image
+		if (!id || (id && rawData.image)) {
+			formData.append("post[image]", rawData.image);
+		}
 
 		const requestFunction = isEditing
 			? updatePost(id.toString(), formData)
@@ -79,6 +84,13 @@ function PostForm({ post, isEditing }: PostFormProps) {
 						}}
 					/>
 				</label>
+				{rawData.image_url && (
+					<img
+						src={rawData?.image_url}
+						alt={rawData.title}
+						className="post-image"
+					/>
+				)}
 				<br />
 				<label htmlFor="bodyInput" className="bodyLabel">
 					Body:
