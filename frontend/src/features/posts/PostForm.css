@@ -7,36 +7,21 @@ body {
 	padding: 0;
 }
 
-.newPostDiv {
-	max-width: 600px;
-	margin: 50px auto;
-	padding: 20px;
-	background: #ffffff;
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-	border-radius: 10px;
-}
-
-.newPostDiv h2 {
-	text-align: center;
-	margin-bottom: 20px;
-	color: #333;
-}
-
-.newPostForm {
+.postForm {
 	display: flex;
 	flex-direction: column;
 	gap: 15px;
 }
 
-.newPostForm label {
+.postForm label {
 	display: flex;
 	flex-direction: column;
 	font-weight: bold;
 	color: #555;
 }
 
-.newPostForm input[type="text"],
-.newPostForm textarea {
+.postForm input[type="text"],
+.postForm textarea {
 	padding: 10px;
 	margin-top: 5px;
 	border: 1px solid #ccc;
@@ -44,19 +29,19 @@ body {
 	font-size: 16px;
 }
 
-.newPostForm textarea {
+.postForm textarea {
 	width: 400px;
 	height: 100px;
 	resize: none;
 }
 
-.newPostForm input[type="text"]:focus,
-.newPostForm textarea:focus {
+.postForm input[type="text"]:focus,
+.postForm textarea:focus {
 	border-color: #007bff;
 	outline: none;
 }
 
-.newPostForm button {
+.postForm button {
 	padding: 10px 20px;
 	background-color: #007bff;
 	border: none;
@@ -67,6 +52,6 @@ body {
 	transition: background-color 0.3s ease;
 }
 
-.newPostForm button:hover {
+.postForm button:hover {
 	background-color: #0056b3;
 }
